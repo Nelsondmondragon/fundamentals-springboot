@@ -5,6 +5,9 @@ import com.fundamentals.springboot.fundamentals.bean.MyBeanWithDependency;
 import com.fundamentals.springboot.fundamentals.bean.MyBeanWithProperties;
 import com.fundamentals.springboot.fundamentals.component.ComponentDependency;
 import com.fundamentals.springboot.fundamentals.pojo.UserPojo;
+import org.apache.juli.logging.Log;
+import org.apache.juli.logging.LogFactory;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,7 +21,7 @@ public class FundamentalsApplication implements CommandLineRunner {
     private MyBeanWithDependency myBeanWithDependency;
     private MyBeanWithProperties myBeanWithProperties;
     private UserPojo userPojo;
-
+    Log LOGGER = LogFactory.getLog(FundamentalsApplication.class);
 
     public FundamentalsApplication(@Qualifier("componentTwoImplement") ComponentDependency componentDependency
             , MyBean myBean, MyBeanWithDependency myBeanWithDependency, MyBeanWithProperties myBeanWithProperties
@@ -42,5 +45,11 @@ public class FundamentalsApplication implements CommandLineRunner {
         myBeanWithDependency.printWithDependency();
         System.out.println(myBeanWithProperties.function());
         System.out.println(userPojo.getEmail() + "-" + userPojo.getPassword() + "-" + userPojo.getAge());
+        try {
+            int va = 10 / 0;
+            LOGGER.debug("Variable  value");
+        } catch (Exception e) {
+            LOGGER.error("Error division" + e.getMessage());
+        }
     }
 }
